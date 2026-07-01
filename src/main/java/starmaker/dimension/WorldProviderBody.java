@@ -72,18 +72,18 @@ public class WorldProviderBody extends WE_WorldProviderSpace implements IWeather
 	{
 		return MakerUtils.bodies.get(this.getDimension());
 	}
-	
+
 	@Override
 	public CelestialBody getCelestialBody() {
 		if(getDimData() != null)
 		{
 			//StarMaker.debug(StarMaker.bodies.get(this.getDimension()).getBody().getName());
-			return getDimData().getBody(); 
+			return getDimData().getBody();
 		}
-		
+
 		return GalacticraftCore.moonMoon;
 	}
-	
+
 	@Override
 	public double getFuelUsageMultiplier() {
 		return getDimData().getFuelUsageModificator();
@@ -104,7 +104,7 @@ public class WorldProviderBody extends WE_WorldProviderSpace implements IWeather
 
 		return this.getDimData().getMeteorFrequency();//(3 - (getSkyColor().x + getSkyColor().y + getSkyColor().z)) * 10;
 	}
-	 
+
 	@Override
 	public ResourceLocation getDungeonChestType() {
 		return null;
@@ -136,9 +136,9 @@ public class WorldProviderBody extends WE_WorldProviderSpace implements IWeather
     	float f = this.world.getCelestialAngle(par1);
         float f1 = 1.0F - (MathHelper.cos(f * ((float)Math.PI * 2F)) * 2.0F + 0.25F);
         f1 = MathHelper.clamp(f1, 0.0F, 1.0F);
-        return f1 * f1 * 0.5F + getDimData().getStarBrightness();   	
+        return f1 * f1 * 0.5F + getDimData().getStarBrightness();
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public float getSunBrightness(float par1) {
@@ -147,10 +147,10 @@ public class WorldProviderBody extends WE_WorldProviderSpace implements IWeather
        f2 = MathHelper.clamp(f2, 0.0F, 1.0F);
 
        f2 = 1.0F - f2;
-              
+
        return f2 * getDimData().getSunBrightness();
     }
-    
+
 	@Override
 	public boolean hasSunset() {
 		return false;
@@ -160,9 +160,9 @@ public class WorldProviderBody extends WE_WorldProviderSpace implements IWeather
 	public Class<? extends IChunkGenerator> getChunkProviderClass() {
 		return WE_ChunkProviderSpace.class;
 	}
-	
+
 	@Override
-	public DimensionType getDimensionType() {		
+	public DimensionType getDimensionType() {
 		return WorldUtil.getDimensionTypeById(this.getDimension());
 	}
 
@@ -170,23 +170,23 @@ public class WorldProviderBody extends WE_WorldProviderSpace implements IWeather
 	public boolean enableAdvancedThermalLevel() {
 		return true;
 	}
-	 
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IRenderHandler getCloudRenderer() {
 
 		if(getDimData().getCloudColor() == null)
 			return new CloudRenderer();
-		
+
 		if(super.getCloudRenderer() == null) {
-			
+
 			float[] f = {1.0F};
 			CustomCloudRender cloud = new CustomCloudRender(f) {
 				
 				@Override
 				public ResourceLocation getCloudTexture() {
 					if(getDimData().getCloudTexture() != null)
-						return getCloudTexture();
+						return getDimData().getCloudTexture();
 
 					return default_clouds;
 				}
