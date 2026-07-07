@@ -467,16 +467,16 @@ public class WorldProviderBody extends WE_WorldProviderSpace implements IWeather
 
 	@Override
 	public float calculateCelestialAngle(long par1, float par3) {
-		if(getDimData().getTidallyLocked())
-			return ((float)super.getDayLength() / 24000F);
+		//if(getDimData().getTidallyLocked())
+		//	return ((float)super.getDayLength() / 24000F);
 
 		return super.calculateCelestialAngle(par1, par3);
 	}
 
 	@Override
 	public long getDayLength() {
-		if(getDimData().getTidallyLocked())
-			return 0L;
+		//if(getDimData().getTidallyLocked())
+		//	return 0L;
 
 		return super.getDayLength();
 	}
