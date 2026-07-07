@@ -55,6 +55,10 @@ public class SkyProviderBody extends SkyProviderBase {
       float speed = ((Moon) this.data.getBody()).getRelativeOrbitTime();
       float x = this.mc.world.getCelestialAngle(ticks) * -360.0F / 10.0F;
       float y = this.mc.world.getCelestialAngle(ticks) * 360.0F + 120.0F;
+      if(this.data.getTidallyLocked()) {
+        x = (float)this.getDayLength() * -360.0F / 10.0F;
+        y = (float)this.getDayLength() * 360.0F + 120.0F;
+      }
       renderImage(parent.getBodyIcon(), x, y, 0.0F, s, 1.0F);
       DimData parentData = (DimData) MakerUtils.bodies.get(Integer.valueOf(parent.getDimensionID()));
       GL11.glPushMatrix();
