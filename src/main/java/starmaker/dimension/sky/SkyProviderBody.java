@@ -44,10 +44,10 @@ public class SkyProviderBody extends SkyProviderBase {
   }
 
   protected void rendererSky(Tessellator tessellator, BufferBuilder buffer, float size, float ticks) {
-    //if (this.data.getBody() instanceof Satellite) {
-    //  Satellite sat = (Satellite)this.data.getBody();
-    //  renderImage(sat.getParentPlanet().getBodyIcon(), 0.0F, 0.0F, 0.0F, 180.0F, 1.0F, 0.4F);
-    //}
+    if (this.data.getBody() instanceof Satellite) {
+      Satellite sat = (Satellite)this.data.getBody();
+      renderImage(sat.getParentPlanet().getBodyIcon(), 0.0F, 0.0F, 0.0F, 180.0F, 1.0F, 0.4F);
+    }
     if (this.data.getBody() instanceof Moon) {
       Planet parent = ((Moon) this.data.getBody()).getParentPlanet();
       float s = (((Moon) this.data.getBody()).getRelativeDistanceFromCenter()).scaledDistance;
@@ -66,7 +66,6 @@ public class SkyProviderBody extends SkyProviderBase {
       if (parentData == null)
         parentData = (DimData) MakerUtils.unreachable_bodies.get(parent);
 
-      // Jack's Edits
       if (enableRenderPlanet()) {
         ResourceLocation RingTexture = null;
         boolean ringAlt = false;
@@ -104,7 +103,6 @@ public class SkyProviderBody extends SkyProviderBase {
           renderImage(RingTexture, x, y, 0.0F, tempSize * s, 1.0F);
         }
       }
-      // End
 
       if (parentData != null && parentData.getSkyColor() != null)
         renderAtmo(tessellator, x, y, s - 0.4F, new Vec3d((parentData.getSkyColor()).x / 255.0D * f, (parentData.getSkyColor()).y / 255.0D * f, (parentData.getSkyColor()).z / 255.0D * f));
@@ -142,13 +140,13 @@ public class SkyProviderBody extends SkyProviderBase {
       renderImage(this.data.getRingOnSkyTexture(), getCelestialAngle(getDayLength()) - 180.0F, 80.0F, 0.0F, 500.0F);
       GlStateManager.popMatrix();
     }
-    if (!(this.data.getBody() instanceof Satellite)) {
+    //if (!(this.data.getBody() instanceof Satellite)) {
       GL11.glPushMatrix();
       GL11.glRotatef(this.mc.world.getCelestialAngle(ticks) * 360.0F, 0.0F, 0.0F, 1.0F);
       GL11.glDisable(3008);
       GL11.glShadeModel(7425);
       OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-    }
+    //}
     int i = 0;
     for (Planet planet : GalaxyRegistry.getPlanetsForSolarSystem(getSolarSystem())) {
       BodiesData data = BodiesRegistry.getData((CelestialBody) planet);
@@ -169,7 +167,6 @@ public class SkyProviderBody extends SkyProviderBase {
         i += 2;
       }
 
-      // More Of Jack's Edits
       for (Moon planetMoon : GalaxyRegistry.getMoonsForPlanet(planet)) {
         BodiesData moonData = BodiesRegistry.getData((CelestialBody) planetMoon);
         if (moonData != null && moonData.getType() == IAdvancedSpace.TypeBody.MOON) {
@@ -212,9 +209,9 @@ public class SkyProviderBody extends SkyProviderBase {
         }
         for (Satellite planetSatellite : GalaxyRegistry.getSatellites()) {
           BodiesData satelliteData = BodiesRegistry.getData((CelestialBody) planetSatellite);
-          if (moonData != null && satelliteData != null && satelliteData.getType() == IAdvancedSpace.TypeBody.SATELLITE) {
+          if (satelliteData != null && satelliteData.getType() == IAdvancedSpace.TypeBody.SATELLITE) {
             if (this.data.getBody() instanceof Satellite) {
-              if (planetMoon.getParentPlanet().equals(((Satellite) this.data.getBody()).getParentPlanet()) && moonData.getType() == IAdvancedSpace.TypeBody.MOON) {
+              if (moonData != null && planetMoon.getParentPlanet().equals(((Satellite) this.data.getBody()).getParentPlanet()) && moonData.getType() == IAdvancedSpace.TypeBody.MOON) {
                 float distance = (planetMoon.getRelativeDistanceFromCenter()).scaledDistance;
                 distance *= 40.0F;
                 if (planetMoon.getPhaseShift() < 0.0F && planetMoon.getPhaseShift() > Math.PI)
@@ -226,25 +223,22 @@ public class SkyProviderBody extends SkyProviderBase {
                 GL11.glRotatef((20 - 12 * i) + distance, 0.0F, 0.0F, 1.0F);
                 GL11.glDisable(3042);
                 GL11.glPopMatrix();
-                //renderImage(planetMoon.getBodyIcon(), -90.0F, 185.0F - (8 * i), (-20 + 12 * i) - distance, 1.0F + planetMoon.getRelativeSize() / distance);
-                // Added This
-                GL11.glPushMatrix();
-                // Changed This
                 renderImage(planetMoon.getBodyIcon(), -90.0F, (this.mc.world.getCelestialAngle(ticks) * 360F) - (8 * i), (-20 + 12 * i) - distance, 1.0F + planetMoon.getRelativeSize() / distance);
-                // Moved This
-                renderImage(((Satellite)this.data.getBody()).getParentPlanet().getBodyIcon(), 0.0F, 0.0F, 0.0F, 180.0F, 1.0F, 0.4F);
-                //rendererUpdateSky();
-                GL11.glDisable(3008);
-                GL11.glShadeModel(7425);
-                OpenGlHelper.glBlendFunc(770, 771, 1, 0);
                 i += 2;
               }
+              // TODO: Make this work properly
+              //renderImage(((Satellite)this.data.getBody()).getParentPlanet().getBodyIcon(), 0.0F, 0.0F, 0.0F, 180.0F, 1.0F, 0.4F);
+
+              //GL11.glPushMatrix();
+              //GL11.glRotatef(this.mc.world.getCelestialAngle(ticks) * 360.0F, 0.0F, 0.0F, 1.0F);
+              //GL11.glDisable(3008);
+              //GL11.glShadeModel(7425);
+              //OpenGlHelper.glBlendFunc(770, 771, 1, 0);
             }
           }
         }
       }
     }
-    // End
     GL11.glShadeModel(7424);
     GL11.glPopMatrix();
   }
