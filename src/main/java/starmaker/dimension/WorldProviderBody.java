@@ -19,6 +19,8 @@ import asmodeuscore.core.utils.worldengine.standardcustomgen.WE_OreGen;
 import asmodeuscore.core.utils.worldengine.standardcustomgen.WE_RavineGen;
 import asmodeuscore.core.utils.worldengine.standardcustomgen.WE_TerrainGenerator;
 import micdoodle8.mods.galacticraft.api.galaxies.CelestialBody;
+import micdoodle8.mods.galacticraft.api.galaxies.Moon;
+import micdoodle8.mods.galacticraft.api.galaxies.Planet;
 import micdoodle8.mods.galacticraft.api.vector.Vector3;
 import micdoodle8.mods.galacticraft.api.world.IWeatherProvider;
 import micdoodle8.mods.galacticraft.core.GalacticraftCore;
@@ -467,7 +469,7 @@ public class WorldProviderBody extends WE_WorldProviderSpace implements IWeather
 
 	@Override
 	public float calculateCelestialAngle(long par1, float par3) {
-		if(getDimData().getTidallyLocked())
+		if(getDimData().getTidallyLocked() && getDimData().getBody() instanceof Planet)
 			return ((float)super.getDayLength() / 24000F);
 
 		return super.calculateCelestialAngle(par1, par3);
@@ -475,7 +477,7 @@ public class WorldProviderBody extends WE_WorldProviderSpace implements IWeather
 
 	@Override
 	public long getDayLength() {
-		if(getDimData().getTidallyLocked())
+		if(getDimData().getTidallyLocked() && getDimData().getBody() instanceof Planet)
 			return 0L;
 
 		return super.getDayLength();

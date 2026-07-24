@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import starmaker.utils.json.data.BiomeImpl;
+import starmaker.utils.json.data.GrassGenImpl;
 import starmaker.utils.json.data.OrbitDataImpl;
 import starmaker.utils.json.data.OreGenImpl;
 
@@ -24,6 +26,9 @@ public class AsteroidImpl
 	@SerializedName("temperature")
 	@Expose
 	private float temperature;
+    @SerializedName("wind")
+    @Expose
+    private double wind;
 	@SerializedName("gravity")	@Expose
 	private float gravity;
 	@SerializedName("solar_radiation")
@@ -50,12 +55,12 @@ public class AsteroidImpl
 	@Expose
 	private List<OreGenImpl> oregen = null;
 
-	public AsteroidImpl()
+    public AsteroidImpl()
 	{
 	}
 
 	public AsteroidImpl(String parentSystem, String parentPlanet, OrbitDataImpl orbitData,
-			float temperature, float gravity, boolean solarRadiation, double sunBrightness,
+			float temperature,double wind ,float gravity, boolean solarRadiation, double sunBrightness,
 			double starBrightness, int tier, float sun_size, boolean unreachable, List<String> asteroid_blocks, List<OreGenImpl> oregen)
 	{
 		super();
@@ -63,6 +68,7 @@ public class AsteroidImpl
 		this.parentPlanet = parentPlanet;
 		this.orbitData = orbitData;
 		this.temperature = temperature;
+        this.wind = wind;
 		this.gravity = gravity;
 		this.solarRadiation = solarRadiation;
 		this.sunBrightness = sunBrightness;
@@ -123,6 +129,22 @@ public class AsteroidImpl
 	{
 		this.temperature = temperature;
 	}
+
+    public Float getWind()
+    {
+        return (float) wind;
+    }
+
+    public void setWind(double wind)
+    {
+        this.wind = wind;
+    }
+
+    public AsteroidImpl withWind(double wind)
+    {
+        this.wind = wind;
+        return this;
+    }
 
 	public float getGravity() { return this.gravity; }
 	public void setGravity(float gravity) { this.gravity = gravity; }
@@ -228,7 +250,7 @@ public class AsteroidImpl
 		this.unreachable = unreachable;
 		return this;
 	}
-	
+
 	public List<OreGenImpl> getOreGenList()
 	{
 		return this.oregen;
