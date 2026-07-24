@@ -492,6 +492,7 @@ public class ParseFiles {
 			return;
 		}
 
+
 		if(impl.getParentPlanet() == null) {
 			if (!GalaxyRegistry.getRegisteredSolarSystems().containsKey(impl.getParentSystem())
 					&& !impl.getParentSystem().equals("sol"))
@@ -519,7 +520,7 @@ public class ParseFiles {
 				BodiesRegistry.setPlanetData(asteroid, 0F, 0, impl.getGravity(), impl.getSolarRadiation());
 				BodiesRegistry.setProviderData(asteroid, WorldProviderAsteroid.class, dimID, impl.getTier(),
 						ACBiome.ACSpace);
-				asteroid.setAtmosphere(new AtmosphereInfo(false, false, false, impl.getTemperature(), 0F, 0F));
+				asteroid.setAtmosphere(new AtmosphereInfo(false, false, false, impl.getTemperature(), impl.getWind(), 0F));
 
 				asteroid.setRelativeDistanceFromCenter(
 						new ScalableDistance(orbitData.getDistanceFromCenter() + orbitData.getSize(),
@@ -614,7 +615,7 @@ public class ParseFiles {
 				BodiesRegistry.setPlanetData(asteroid, 0F, 0, impl.getGravity(), impl.getSolarRadiation());
 				BodiesRegistry.setProviderData(asteroid, WorldProviderAsteroid.class, dimID, impl.getTier(),
 						ACBiome.ACSpace);
-				asteroid.setAtmosphere(new AtmosphereInfo(false, false, false, impl.getTemperature(), 0F, 0F));
+				asteroid.setAtmosphere(new AtmosphereInfo(false, false, false, impl.getTemperature(), impl.getWind(), 0F));
 
 				asteroid.setRelativeDistanceFromCenter(
 						new ScalableDistance(orbitData.getDistanceFromCenter() + orbitData.getSize(),
@@ -623,6 +624,8 @@ public class ParseFiles {
 				List<String> oregen = new ArrayList<>();
 				for (OreGenImpl ore_gen : impl.getOreGenList())
 					oregen.add(ore_gen.getOreBlock());
+
+
 
 				data.setSkyFogColor(Vec3d.ZERO, Vec3d.ZERO)
 						.setBrightness(impl.getSunBrightness(), impl.getStarBrightness())
