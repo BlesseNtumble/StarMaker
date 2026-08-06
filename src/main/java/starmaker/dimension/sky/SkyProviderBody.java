@@ -149,25 +149,24 @@ public class SkyProviderBody extends SkyProviderBase {
     //}
     int i = 0;
     for (Planet planet : GalaxyRegistry.getPlanetsForSolarSystem(getSolarSystem())) {
-      BodiesData data = BodiesRegistry.getData((CelestialBody) planet);
-      if (data != null && data.getType() == IAdvancedSpace.TypeBody.STAR) {
-        float distance = (planet.getRelativeDistanceFromCenter()).scaledDistance;
-        distance *= 40.0F;
-        if (planet.getPhaseShift() < 0.0F && planet.getPhaseShift() > Math.PI)
-          distance *= -1.0F;
-        GL11.glPushMatrix();
-        GL11.glEnable(3042);
-        GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef((5 - 8 * i), 1.0F, 0.0F, 0.0F);
-        GL11.glRotatef((20 - 12 * i) + distance, 0.0F, 0.0F, 1.0F);
-        //renderSunAura(tessellator, 3.0F + planet.getRelativeSize(), 0.7F, data.getStarColor());
-        GL11.glDisable(3042);
-        GL11.glPopMatrix();
-        renderImage(planet.getBodyIcon(), -90.0F, 185.0F - (8 * i), (-20 + 12 * i) - distance, 1.0F + planet.getRelativeSize());
-        i += 2;
-      }
-
       for (Moon planetMoon : GalaxyRegistry.getMoonsForPlanet(planet)) {
+        BodiesData data = BodiesRegistry.getData((CelestialBody) planet);
+        if (data != null && data.getType() == IAdvancedSpace.TypeBody.STAR && !planetMoon.getParentPlanet().equals(((Moon) this.data.getBody()).getParentPlanet())) {
+          float distance = (planet.getRelativeDistanceFromCenter()).scaledDistance;
+          distance *= 40.0F;
+          if (planet.getPhaseShift() < 0.0F && planet.getPhaseShift() > Math.PI)
+            distance *= -1.0F;
+          GL11.glPushMatrix();
+          GL11.glEnable(3042);
+          GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+          GL11.glRotatef((5 - 8 * i), 1.0F, 0.0F, 0.0F);
+          GL11.glRotatef((20 - 12 * i) + distance, 0.0F, 0.0F, 1.0F);
+          //renderSunAura(tessellator, 3.0F + planet.getRelativeSize(), 0.7F, data.getStarColor());
+          GL11.glDisable(3042);
+          GL11.glPopMatrix();
+          renderImage(planet.getBodyIcon(), -90.0F, 185.0F - (8 * i), (-20 + 12 * i) - distance, 1.0F + planet.getRelativeSize());
+          i += 2;
+        }
         BodiesData moonData = BodiesRegistry.getData((CelestialBody) planetMoon);
         if (moonData != null && moonData.getType() == IAdvancedSpace.TypeBody.MOON) {
           if (this.data.getBody() instanceof Moon) {
